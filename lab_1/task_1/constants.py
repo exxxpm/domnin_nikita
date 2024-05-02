@@ -7,6 +7,6 @@ RANDOM_ALPHABET_SQUARE = [
     ["ё", "о", " ", "й", " ", " "],
 ]
 
-UNUSUAL_MARKS = {"—", ".", ","}
+UNUSUAL_MARKS = {"—", ".", ",", "(", ")"}
 
 FILE_PATH = "task_1/router.json" 
