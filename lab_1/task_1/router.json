@@ -1,0 +1,5 @@
+{
+    "directory" : "task_1/assets",
+    "source_text" : "plain_text.txt",
+    "encrypted_text" : "cipher_text.txt"
+}
