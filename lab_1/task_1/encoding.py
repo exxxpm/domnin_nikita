@@ -1,15 +1,16 @@
 import os
 import json
+
 from constants import RANDOM_ALPHABET_SQUARE, UNUSUAL_MARKS, FILE_PATH
 
 
 def load_json(file_path: str) -> dict:
     """
     Load JSON data from a file.
-    
+
     Args:
         file_path (str): Path to the JSON file.
-        
+
     Returns:
         dict: Loaded JSON data.
     """
@@ -28,11 +29,11 @@ def load_json(file_path: str) -> dict:
 def encrypt_message(message: str, square: list) -> str:
     """
     Encrypt a message using a Polybius square.
-    
+
     Args:
         message (str): The message to be encrypted.
         square (list): The Polybius square.
-        
+
     Returns:
         str: The encrypted message.
     """
@@ -66,11 +67,15 @@ def main() -> None:
 
         if directory and source_file and encrypted_file:
             try:
-                with open(os.path.join(directory, source_file), "r", encoding="utf-8") as file:
+                with open(
+                    os.path.join(directory, source_file), "r", encoding="utf-8"
+                ) as file:
                     message = file.read()
                     encrypted_message = encrypt_message(message, RANDOM_ALPHABET_SQUARE)
 
-                with open(os.path.join(directory, encrypted_file), "w", encoding="utf-8") as file:
+                with open(
+                    os.path.join(directory, encrypted_file), "w", encoding="utf-8"
+                ) as file:
                     file.write(encrypted_message)
 
                 print("Message successfully encrypted and saved to file.")
