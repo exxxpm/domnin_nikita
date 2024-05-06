@@ -1,7 +1,8 @@
 import json
+import numpy as np
+
 from scipy.special import erfc
 from mpmath import gammainc
-import numpy as np
 
 from constants import BLOCK_LENGTH, PI_ARRAY, FILE_PATH
 
