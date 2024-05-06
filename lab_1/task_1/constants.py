@@ -9,4 +9,4 @@ RANDOM_ALPHABET_SQUARE = [
 
 UNUSUAL_MARKS = {"—", ".", ",", "(", ")"}
 
-FILE_PATH = "task_1/router.json" 
+FILE_PATH = "router.json"

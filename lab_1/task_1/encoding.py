@@ -43,11 +43,11 @@ def encrypt_message(message: str, square: list) -> str:
             if char.lower() in UNUSUAL_MARKS:
                 encrypted_message += char
             else:
-                for i in range(len(square)):
-                    for j in range(len(square[i])):
-                        if char.lower() == square[i][j]:
-                            encrypted_message += f"({i + 1}{j + 1})"
-                            break
+                for i, row in enumerate(square):
+                    if char.lower() in row:
+                        j = row.index(char.lower())
+                        encrypted_message += f"({i + 1}{j + 1})"
+                        break
 
     except Exception as e:
         print("An error occurred:", e)
