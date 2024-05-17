@@ -1,5 +1,5 @@
 {
-    "directory" : "task_2/assets",
+    "directory" : "assets",
     "source_text" : "encrypted_text.txt",
     "result_text" : "decrypted_text.txt"
 }
