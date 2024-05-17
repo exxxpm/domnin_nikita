@@ -60,7 +60,16 @@ def calculate_character_frequencies(text: str) -> dict:
     """
     try:
         frequencies = Counter(text)
-        return frequencies
+        total_chars = sum(frequencies.values())
+        sorted_frequencies = sorted(
+            frequencies.items(), key=lambda x: x[1], reverse=True
+        )
+
+        result_frequencies = {}
+        for char, freq in sorted_frequencies:
+            result_frequencies[char] = (freq / total_chars)
+
+        return result_frequencies
     except Exception as e:
         print(f"An error occurred while calculating character frequencies: {e}")
         return {}
@@ -77,17 +86,9 @@ def main():
 
             text = read_text_file(input_file_path)
             if text:
-                frequencies = calculate_character_frequencies(text)
-
-                total_chars = sum(frequencies.values())
-
-                sorted_frequencies = sorted(
-                    frequencies.items(), key=lambda x: x[1], reverse=True
-                )
-
-                for char, freq in sorted_frequencies:
-                    decimal_freq = freq / total_chars
-                    print(f"Character '{char}': {decimal_freq:.4f}")
+                data = calculate_character_frequencies(text)
+                for char, freq in data.items():
+                    print(f"Character '{char}': {freq:.4f}")
     except Exception as e:
         print(f"An error occurred in the main function: {e}")
 
