@@ -1,0 +1,8 @@
+{
+  "original_text": "text_storage/original_text.txt",
+  "encrypted_text": "text_storage/encrypted_text.txt",
+  "decrypted_text": "text_storage/decrypted_text.txt",
+  "asymmetric_public_key": "keys_storage/asymmetric_keys/public.pem",
+  "asymmetric_private_key": "keys_storage/asymmetric_keys/private.pem",
+  "symmetric_key": "keys_storage/symmetric_keys/symmetric_128.txt"
+}
