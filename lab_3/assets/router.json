@@ -1,0 +1,8 @@
+{
+  "original_text": "lab_3/storage/text/original.txt",
+  "encrypted_text": "lab_3/storage/text/encrypted.txt",
+  "decrypted_text": "lab_3/storage/text/decrypted.txt",
+  "asymmetric_public_key": "lab_3/storage/keys/asymmetric/public.pem",
+  "asymmetric_private_key": "lab_3/storage/keys/asymmetric/private.pem",
+  "symmetric_key": "lab_3/storage/keys/symmetric/symmetric_128.txt"
+}
