@@ -28,14 +28,11 @@ class SymmetricAlgs:
     def encrypt_data(symmetric_key: bytes, plaintext_data: bytes) -> bytes:
         """
         Encrypt the plaintext data using the provided symmetric key.
-
         :param symmetric_key: Symmetric key in bytes.
         :param plaintext_data: Data to encrypt in bytes.
-
         :return: Encrypted data in bytes.
-
         Returns:
-            object: 
+            object:
         """
         try:
             initialization_vector = os.urandom(16)
@@ -53,10 +50,8 @@ class SymmetricAlgs:
     def decrypt_data(symmetric_key: bytes, encrypted_data: bytes) -> bytes:
         """
         Decrypt the encrypted data using the provided symmetric key.
-
         :param symmetric_key: Symmetric key in bytes.
         :param encrypted_data: Encrypted data in bytes.
-
         :return: Decrypted data in bytes.
         """
         try:

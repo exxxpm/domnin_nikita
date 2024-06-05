@@ -42,8 +42,11 @@ class HybridEncryptionManager:
             symmetric_key = self.sym_crypto.generate_symmetric_key()
             private_key, public_key = self.asym_crypto.generate_key_pair(2048)
 
-            self.asym_crypto.save_private_key(private_key)
-            self.asym_crypto.save_public_key(public_key)
+            private_file = FileHelper(self.asym_crypto.private_key_filepath)
+            private_file.save_bytes(AsymmetricAlgs.get_private_key_bytes(private_key))
+
+            public_file = FileHelper(self.asym_crypto.public_key_filepath)
+            public_file.save_bytes(AsymmetricAlgs.get_public_key_bytes(public_key))
 
             encrypted_symmetric_key = self.asym_crypto.encrypt(public_key, symmetric_key)
             sym_key_file = FileHelper(f"{self.sym_key_file_path[:-4]}_{self.sym_crypto.key_length}.txt")
@@ -60,8 +63,11 @@ class HybridEncryptionManager:
         try:
             sym_key_file = FileHelper(f"{self.sym_key_file_path[:-4]}_{self.sym_crypto.key_length}.txt")
             encrypted_symmetric_key = sym_key_file.load_bytes()
+            private_key = FileHelper(self.asym_crypto.private_key_filepath)
+            private_key = private_key.load_bytes()
+            private_key = AsymmetricAlgs.get_private_key_from_bytes(private_key)
             symmetric_key = self.asym_crypto.decrypt(
-                self.asym_crypto.load_private_key(), encrypted_symmetric_key)
+                private_key, encrypted_symmetric_key)
             text_file = FileHelper(self.text_file_path)
             plaintext = bytes(text_file.read_text('utf-8'), "UTF-8")
             encrypted_text = self.sym_crypto.encrypt_data(symmetric_key, plaintext)
@@ -78,8 +84,11 @@ class HybridEncryptionManager:
         try:
             sym_key_file = FileHelper(f"{self.sym_key_file_path[:-4]}_{self.sym_crypto.key_length}.txt")
             encrypted_symmetric_key = sym_key_file.load_bytes()
+            private_key = FileHelper(self.asym_crypto.private_key_filepath)
+            private_key = private_key.load_bytes()
+            private_key = AsymmetricAlgs.get_private_key_from_bytes(private_key)
             symmetric_key = self.asym_crypto.decrypt(
-                self.asym_crypto.load_private_key(), encrypted_symmetric_key)
+                private_key, encrypted_symmetric_key)
             encrypted_file = FileHelper(self.encrypted_file_path)
             encrypted_text = bytes(encrypted_file.load_bytes())
             decrypted_text = self.sym_crypto.decrypt_data(symmetric_key, encrypted_text)

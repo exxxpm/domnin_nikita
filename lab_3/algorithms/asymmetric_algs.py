@@ -3,6 +3,10 @@ import logging
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.serialization import (
+    load_pem_public_key,
+    load_pem_private_key)
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -38,60 +42,60 @@ class AsymmetricAlgs:
         public_key = private_key.public_key()
         return private_key, public_key
 
-    def save_private_key(self, private_key: rsa.RSAPrivateKey) -> None:
+    @staticmethod
+    def get_private_key_bytes(private_key: rsa.RSAPrivateKey) -> bytes:
         """
-        Serialize the private key and save it to a file.
+        Returns bytes of private key.
 
-        :param private_key: The private key to serialize and save.
+        :param private_key: The RSA private key used for decryption.
+
+        :return: bytes
         """
         try:
-            with open(self.private_key_filepath, 'wb') as private_key_file:
-                private_key_file.write(private_key.private_bytes(
-                    encoding=serialization.Encoding.PEM,
-                    format=serialization.PrivateFormat.TraditionalOpenSSL,
-                    encryption_algorithm=serialization.NoEncryption()
-                ))
-        except Exception as error:
-            logging.error(f"Error in saving private key - {error}")
+            return private_key.private_bytes(encoding=serialization.Encoding.PEM,
+                                             format=serialization.PrivateFormat.TraditionalOpenSSL,
+                                             encryption_algorithm=serialization.NoEncryption())
+        except Exception as ex:
+            logging.error(f"An error occurred while trying to retrieve the bytes of the private key: {ex}")
 
-    def save_public_key(self, public_key: rsa.RSAPublicKey) -> None:
+    @staticmethod
+    def get_public_key_bytes(public_key: rsa.RSAPublicKey) -> bytes:
         """
-        Serialize the public key and save it to a file.
+        Returns bytes of public key.
 
-        :param public_key: The public key to serialize and save.
-        """
-        try:
-            with open(self.public_key_filepath, 'wb') as public_key_file:
-                public_key_file.write(public_key.public_bytes(
-                    encoding=serialization.Encoding.PEM,
-                    format=serialization.PublicFormat.SubjectPublicKeyInfo
-                ))
-        except Exception as error:
-            logging.error(f"Error in saving public key - {error}")
+        :param public_key: The RSA public key used for decryption.
 
-    def load_private_key(self) -> rsa.RSAPrivateKey:
-        """
-        Deserialize the private key from a file and return it.
-
-        :return: The deserialized private key.
+        :return: bytes
         """
         try:
-            with open(self.private_key_filepath, 'rb') as private_key_file:
-                return serialization.load_pem_private_key(private_key_file.read(), password=None)
-        except Exception as error:
-            logging.error(f"Error in loading private key - {error}")
+            return public_key.public_bytes(encoding=serialization.Encoding.PEM,
+                                           format=serialization.PublicFormat.SubjectPublicKeyInfo)
+        except Exception as e:
+            logging.error(f"Error in try to get bytes of public key: {e}")
 
-    def load_public_key(self) -> rsa.RSAPublicKey:
+    @staticmethod
+    def get_public_key_from_bytes(public_key_bytes: bytes) -> rsa.RSAPublicKey:
         """
-        Deserialize the public key from a file and return it.
-
-        :return: The deserialized public key.
+        Returns public key parsed from bytes.
+        :param public_key_bytes: RSA public key in bytes.
+        :return: RSA public key
         """
         try:
-            with open(self.public_key_filepath, 'rb') as public_key_file:
-                return serialization.load_pem_public_key(public_key_file.read())
-        except Exception as error:
-            logging.error(f"Error in loading public key - {error}")
+            return load_pem_public_key(public_key_bytes)
+        except Exception as ex:
+            logging.error(f"An unsuccessful attempt to decrypt the bytes of the public key: {ex}")
+
+    @staticmethod
+    def get_private_key_from_bytes(private_key_bytes: bytes) -> rsa.RSAPrivateKey:
+        """
+        Returns private key parsed from bytes.
+        :param private_key_bytes: RSA private key in bytes.
+        :return: RSA public key
+        """
+        try:
+            return load_pem_private_key(private_key_bytes, password=None, )
+        except Exception as ex:
+            logging.error(f"An unsuccessful attempt to decrypt the bytes of the private key: {ex}")
 
     @staticmethod
     def encrypt(public_key: rsa.RSAPublicKey, plaintext: bytes) -> bytes:
